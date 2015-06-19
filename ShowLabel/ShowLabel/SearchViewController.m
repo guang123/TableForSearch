@@ -57,6 +57,12 @@
     iSearch.delegate = self ;
 }
 
+-(void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:YES];
+    if([[[UIDevice currentDevice]systemVersion]floatValue] < 8.0)
+        [self.mainTableView reloadData];//ios7中table初始化时仅执行一次heightForRowAtIndexPath方法，导致后面计算的高度没有应用到cell上，引发按钮无法点击
+}
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
