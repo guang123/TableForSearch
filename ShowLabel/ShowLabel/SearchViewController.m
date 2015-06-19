@@ -21,8 +21,10 @@
 @property (strong, nonatomic) UINib *SecondNib;
 @property (strong, nonatomic) NSMutableArray *arrForBut;//记录创建的标签按钮
 @property (assign, nonatomic) int profession;//记录换行数
+@property (strong, nonatomic) NSArray *arrSearchHistory;//搜索历史
 @property (strong, nonatomic) NSArray *arr;
 @property (strong, nonatomic) NSArray *arr2;
+@property (strong, nonatomic) NSString *searchStr;//用于搜索关键字
 @end
 
 @implementation SearchViewController
@@ -33,13 +35,13 @@
 @synthesize iSearch;
 @synthesize arr;
 @synthesize arr2;
-
+@synthesize arrSearchHistory;
 - (void)viewDidLoad {
     [super viewDidLoad];
     if( ([[[UIDevice currentDevice] systemVersion] doubleValue]>=7.0))
     {
-        //        self.view.bounds = CGRectMake(0, -20, [[UIScreen mainScreen] bounds].size.width, [[UIScreen mainScreen] bounds].size.height);
-        self.view.bounds = CGRectMake(0, -20, self.view.frame.size.width, self.view.frame.size.height);
+        self.view.bounds = CGRectMake(0, -20, [[UIScreen mainScreen] bounds].size.width, [[UIScreen mainScreen] bounds].size.height-120);
+        //self.view.bounds = CGRectMake(0, -20, self.view.frame.size.width, self.view.frame.size.height-20);
     }
     arr = [[NSArray alloc] initWithObjects:@"酒店",@"机票",@"旅游",@"攻略",@"旅行wifi",@"签证",@"周末游",@"火车票",@"邮轮",@"天海邮轮",@"抢2000红包",@"顶级游",@"差旅",@"游古镇",@"暑假超优惠",@"首尔酒店",@"避暑",@"杭州",@"三亚", nil];
     arr2 = [[NSArray alloc] initWithObjects:@"我搜",@"我搜1",@"我搜2",@"我搜3",@"我搜4", nil];
@@ -62,40 +64,33 @@
 
 #pragma mark -UISearchBarDelegate
 
+//开始搜索
 - (BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar {
     searchBar.showsCancelButton = YES;
     searchBar.text = @"";
-    if (arrForDataSource.count != 0)
-    {
-        arrCopyDataSource = [[NSMutableArray alloc] initWithObjects:arr,arr2, nil];
-        [self.arrForBut removeAllObjects];
-        [arrForDataSource removeAllObjects];
-        [self.mainTableView reloadData];
-    }
     return YES;
 }
-
+//结束编辑
 - (void)searchBarTextDidEndEditing:(UISearchBar *)searchBar {
-    NSLog(@"did end");
+    
     searchBar.showsCancelButton = NO;
-    arrForDataSource = arrCopyDataSource;
-    NSLog(@"12345%@",arrCopyDataSource);
-    [self.mainTableView reloadData];
+    
 }
-
+//点击取消搜索按钮
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
 {
     [searchBar resignFirstResponder];
 }
-
+//点击搜索按钮
 -(void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
 {
-    
     [searchBar resignFirstResponder];
-    
-    if (searchBar.text != nil || [searchBar.text isEqualToString:@""]|| ![searchBar.text isEqualToString:@"(null)"]) {
+    if (searchBar.text != nil || [searchBar.text isEqualToString:@""]|| ![searchBar.text isEqualToString:@"(null)"])
+    {
+        [self saveSearchHistory:searchBar.text];
     }
-    //[self searchRequest];
+    self.searchStr = searchBar.text;
+    [self prenSearchVC];
 }
 
 #pragma mark - UITableViewDataSource
@@ -135,7 +130,12 @@
         FirstTableViewCell *cell =(FirstTableViewCell*)[tableView dequeueReusableCellWithIdentifier:firstCellID];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         NSArray *arrDate = arrForDataSource[indexPath.section];
-        
+        if (self.arrForBut.count != 0) {//修改因cell重用造成的按钮覆盖问题
+            for (UIButton *but in self.arrForBut) {
+                [but removeFromSuperview];
+            }
+            [self.arrForBut removeAllObjects];
+        }
         profession = 0;
         for (int i = 1; i <= arrDate.count; i++)
         {
@@ -160,7 +160,9 @@
             [butLabel handleControlEvent:UIControlEventTouchUpInside withBlock:^(id sender)
              {
                  UIButton *but = (UIButton *)sender;
-                 NSLog(@"点击的Button:%@",but.titleLabel.text);
+                 self.searchStr = but.titleLabel.text;
+                 [self saveSearchHistory:self.searchStr];
+                 [self prenSearchVC];
              }];
             [self.arrForBut addObject:butLabel];
             [cell.viewBotton addSubview:butLabel];
@@ -240,6 +242,60 @@
         explainlabelSize = [text sizeWithFont:[UIFont systemFontOfSize:17.0] constrainedToSize:CGSizeMake(203, 10000) lineBreakMode:NSLineBreakByCharWrapping];
     }
     return explainlabelSize;
+}
+
+//取消搜索历史
+-(void)clearSearchHistory
+{
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults removeObjectForKey:@"SearchHistory"];
+    [arrForDataSource removeAllObjects];
+}
+
+//获取搜索历史
+-(void)getSearchHistory
+{
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSString *strCommonCity = [userDefaults valueForKey:@"SearchHistory"];
+    arrSearchHistory = [[NSArray alloc]init];
+    arrSearchHistory = [strCommonCity componentsSeparatedByString:@","];
+}
+
+//保存搜索历史
+-(void)saveSearchHistory:(NSString *)strSearch
+{
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSString *strSearchHistory = [userDefaults valueForKey:@"SearchHistory"];
+    NSArray *searchHistory = [[NSArray alloc]init];
+    searchHistory = [strSearchHistory componentsSeparatedByString:@","];
+    BOOL haveHotel = NO;
+    for (NSString *strHistory in searchHistory) {
+        if ([strSearch isEqualToString:strHistory]) {
+            haveHotel = YES;
+            break;
+        }
+    }
+    if (!haveHotel) {
+        if (strSearchHistory == nil || strSearchHistory == NULL || [strSearchHistory isEqualToString:@""]) {
+            [userDefaults setValue:strSearch forKey:@"SearchHistory"];
+        }else
+        {
+            NSString * strCityName = [strSearchHistory stringByAppendingFormat:@",%@",strSearch];
+            [userDefaults setValue:strCityName forKey:@"SearchHistory"];
+        }
+        
+        
+    }
+}
+//跳转到搜索结果页
+-(void)prenSearchVC
+{
+    /*
+    SearchResultViewController *searchResultVC = [[SearchResultViewController alloc]init];
+    searchResultVC.searchStr = self.searchStr;
+    searchResultVC.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:searchResultVC animated:YES];
+     */
 }
 
 -(void)select:sender
