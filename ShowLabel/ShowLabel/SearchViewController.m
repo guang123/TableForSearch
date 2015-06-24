@@ -4,8 +4,7 @@
 //
 //  Created by Yx on 15/6/15.
 //  Copyright (c) 2015年 Yx. All rights reserved.
-//
-
+//  转屏时刷新table可以适配横竖屏
 #import "SearchViewController.h"
 #import "FirstTableViewCell.h"
 #import "SecondTableViewCell.h"
@@ -40,14 +39,13 @@
     [super viewDidLoad];
     if( ([[[UIDevice currentDevice] systemVersion] doubleValue]>=7.0))
     {
-        self.view.bounds = CGRectMake(0, -20, [[UIScreen mainScreen] bounds].size.width, [[UIScreen mainScreen] bounds].size.height-120);
+        self.view.bounds = CGRectMake(0,-20, [[UIScreen mainScreen] bounds].size.width, [[UIScreen mainScreen] bounds].size.height-20);
         //self.view.bounds = CGRectMake(0, -20, self.view.frame.size.width, self.view.frame.size.height-20);
     }
     arr = [[NSArray alloc] initWithObjects:@"酒店",@"机票",@"旅游",@"攻略",@"旅行wifi",@"签证",@"周末游",@"火车票",@"邮轮",@"天海邮轮",@"抢2000红包",@"顶级游",@"差旅",@"游古镇",@"暑假超优惠",@"首尔酒店",@"避暑",@"杭州",@"三亚", nil];
     arr2 = [[NSArray alloc] initWithObjects:@"我搜",@"我搜1",@"我搜2",@"我搜3",@"我搜4", nil];
     arrForSectionName = [[NSMutableArray alloc] initWithObjects:@"热门搜索",@"历史搜索",nil];
     arrForDataSource = [[NSMutableArray alloc] initWithObjects:arr,arr2, nil];
-    
     self.arrForBut = [[NSMutableArray alloc] init];
     
     UISearchDisplayController *searchDisPlay = [[UISearchDisplayController alloc]initWithSearchBar:iSearch contentsController:self];
@@ -55,6 +53,9 @@
     searchDisPlay.searchResultsDataSource = self;
     searchDisPlay.searchResultsDelegate = self;
     iSearch.delegate = self ;
+    //转屏通知
+    NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
+    [center addObserver:self selector:@selector(statusBarDidChangeFrame:) name:UIApplicationDidChangeStatusBarFrameNotification object:nil];
 }
 
 -(void)viewDidAppear:(BOOL)animated
@@ -310,4 +311,7 @@
     NSLog(@"点击的Button:%@",but.titleLabel.text);
 }
 
+- (void)statusBarDidChangeFrame:(NSNotification *)notification {
+    [self.mainTableView reloadData];
+}
 @end
