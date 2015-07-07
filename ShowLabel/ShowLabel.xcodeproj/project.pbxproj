@@ -7,10 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		FA34AF8B1B4B9FA600EE49FC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA34AF891B4B9FA600EE49FC /* Main.storyboard */; };
 		FA3EA2641B2E70F80021CD17 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = FA3EA2631B2E70F80021CD17 /* main.m */; };
 		FA3EA2671B2E70F80021CD17 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FA3EA2661B2E70F80021CD17 /* AppDelegate.m */; };
 		FA3EA26A1B2E70F80021CD17 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FA3EA2691B2E70F80021CD17 /* ViewController.m */; };
-		FA3EA26D1B2E70F80021CD17 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA3EA26B1B2E70F80021CD17 /* Main.storyboard */; };
 		FA3EA26F1B2E70F80021CD17 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FA3EA26E1B2E70F80021CD17 /* Images.xcassets */; };
 		FA3EA2721B2E70F80021CD17 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA3EA2701B2E70F80021CD17 /* LaunchScreen.xib */; };
 		FA3EA27E1B2E70F80021CD17 /* ShowLabelTests.m in Sources */ = {isa = PBXBuildFile; fileRef = FA3EA27D1B2E70F80021CD17 /* ShowLabelTests.m */; };
@@ -38,6 +38,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		FA34AF8A1B4B9FA600EE49FC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		FA3EA25E1B2E70F80021CD17 /* ShowLabel.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ShowLabel.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FA3EA2621B2E70F80021CD17 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FA3EA2631B2E70F80021CD17 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -45,7 +46,6 @@
 		FA3EA2661B2E70F80021CD17 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		FA3EA2681B2E70F80021CD17 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		FA3EA2691B2E70F80021CD17 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
-		FA3EA26C1B2E70F80021CD17 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		FA3EA26E1B2E70F80021CD17 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		FA3EA2711B2E70F80021CD17 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		FA3EA2771B2E70F80021CD17 /* ShowLabelTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ShowLabelTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -117,7 +117,7 @@
 				FA3EA2661B2E70F80021CD17 /* AppDelegate.m */,
 				FA3EA2681B2E70F80021CD17 /* ViewController.h */,
 				FA3EA2691B2E70F80021CD17 /* ViewController.m */,
-				FA3EA26B1B2E70F80021CD17 /* Main.storyboard */,
+				FA34AF891B4B9FA600EE49FC /* Main.storyboard */,
 				FA3EA2871B2E71420021CD17 /* SearchViewController.h */,
 				FA3EA2881B2E71420021CD17 /* SearchViewController.m */,
 				FA3EA2891B2E71420021CD17 /* SearchViewController.xib */,
@@ -257,7 +257,7 @@
 				FA3EA2901B2E72470021CD17 /* FirstTableViewCell.xib in Resources */,
 				FA3EA2951B2E72840021CD17 /* SecondTableViewCell.xib in Resources */,
 				FA4E57201B2EA517002A3938 /* thrMenuBtn.png in Resources */,
-				FA3EA26D1B2E70F80021CD17 /* Main.storyboard in Resources */,
+				FA34AF8B1B4B9FA600EE49FC /* Main.storyboard in Resources */,
 				FA3EA2721B2E70F80021CD17 /* LaunchScreen.xib in Resources */,
 				FA4E57221B2EAABB002A3938 /* 111.png in Resources */,
 				FA3EA28B1B2E71420021CD17 /* SearchViewController.xib in Resources */,
@@ -310,10 +310,10 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		FA3EA26B1B2E70F80021CD17 /* Main.storyboard */ = {
+		FA34AF891B4B9FA600EE49FC /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				FA3EA26C1B2E70F80021CD17 /* Base */,
+				FA34AF8A1B4B9FA600EE49FC /* Base */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";

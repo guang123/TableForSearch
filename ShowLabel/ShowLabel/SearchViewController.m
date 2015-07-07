@@ -10,6 +10,9 @@
 #import "SecondTableViewCell.h"
 #import "BUIControl.h"
 
+#define ScreenHeight [[UIScreen mainScreen] bounds].size.height
+#define ScreenWidth [[UIScreen mainScreen] bounds].size.width
+
 @interface SearchViewController ()<UISearchControllerDelegate,UISearchBarDelegate,UITableViewDataSource,UITableViewDelegate>
 @property (strong, nonatomic) IBOutlet UISearchBar *iSearch;
 @property (strong, nonatomic) IBOutlet UITableView *mainTableView;
@@ -21,8 +24,8 @@
 @property (strong, nonatomic) NSMutableArray *arrForBut;//记录创建的标签按钮
 @property (assign, nonatomic) int profession;//记录换行数
 @property (strong, nonatomic) NSArray *arrSearchHistory;//搜索历史
-@property (strong, nonatomic) NSArray *arr;
-@property (strong, nonatomic) NSArray *arr2;
+@property (strong, nonatomic) NSArray *arr;//热门搜索标签数组
+@property (strong, nonatomic) NSArray *arr2;//历史搜索标签数组
 @property (strong, nonatomic) NSString *searchStr;//用于搜索关键字
 @end
 
@@ -35,6 +38,7 @@
 @synthesize arr;
 @synthesize arr2;
 @synthesize arrSearchHistory;
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     if( ([[[UIDevice currentDevice] systemVersion] doubleValue]>=7.0))
@@ -48,14 +52,10 @@
     arrForDataSource = [[NSMutableArray alloc] initWithObjects:arr,arr2, nil];
     self.arrForBut = [[NSMutableArray alloc] init];
     
-    UISearchDisplayController *searchDisPlay = [[UISearchDisplayController alloc]initWithSearchBar:iSearch contentsController:self];
-    searchDisPlay.active = NO;
-    searchDisPlay.searchResultsDataSource = self;
-    searchDisPlay.searchResultsDelegate = self;
-    iSearch.delegate = self ;
     //转屏通知
     NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
     [center addObserver:self selector:@selector(statusBarDidChangeFrame:) name:UIApplicationDidChangeStatusBarFrameNotification object:nil];
+    self.mainTableView.frame = CGRectMake(0, 44, ScreenWidth, ScreenHeight-20-20-44);
 }
 
 -(void)viewDidAppear:(BOOL)animated
@@ -163,11 +163,11 @@
             {
                 butLabel.frame = CGRectMake(10 + lateButO, 10 + 40*profession, butWidth+20, 30);
             }
-            //[butLabel addTarget:self action:@selector(select:) forControlEvents:UIControlEventTouchUpInside];
             [butLabel handleControlEvent:UIControlEventTouchUpInside withBlock:^(id sender)
              {
                  UIButton *but = (UIButton *)sender;
                  self.searchStr = but.titleLabel.text;
+                 NSLog(@"搜索：%@",self.searchStr);
                  [self saveSearchHistory:self.searchStr];
                  [self prenSearchVC];
              }];
@@ -305,11 +305,6 @@
      */
 }
 
--(void)select:sender
-{
-    UIButton *but = (UIButton *)sender;
-    NSLog(@"点击的Button:%@",but.titleLabel.text);
-}
 
 - (void)statusBarDidChangeFrame:(NSNotification *)notification {
     [self.mainTableView reloadData];
