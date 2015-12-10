@@ -110,8 +110,6 @@
 		FA3EA2601B2E70F80021CD17 /* ShowLabel */ = {
 			isa = PBXGroup;
 			children = (
-				FA4E57211B2EAABB002A3938 /* 111.png */,
-				FA4E571F1B2EA517002A3938 /* thrMenuBtn.png */,
 				FA4E57131B2EA182002A3938 /* BlockUI */,
 				FA3EA2651B2E70F80021CD17 /* AppDelegate.h */,
 				FA3EA2661B2E70F80021CD17 /* AppDelegate.m */,
@@ -127,8 +125,6 @@
 				FA3EA2911B2E72840021CD17 /* SecondTableViewCell.h */,
 				FA3EA2921B2E72840021CD17 /* SecondTableViewCell.m */,
 				FA3EA2931B2E72840021CD17 /* SecondTableViewCell.xib */,
-				FA3EA26E1B2E70F80021CD17 /* Images.xcassets */,
-				FA3EA2701B2E70F80021CD17 /* LaunchScreen.xib */,
 				FA3EA2611B2E70F80021CD17 /* Supporting Files */,
 			);
 			path = ShowLabel;
@@ -137,6 +133,10 @@
 		FA3EA2611B2E70F80021CD17 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				FA3EA26E1B2E70F80021CD17 /* Images.xcassets */,
+				FA3EA2701B2E70F80021CD17 /* LaunchScreen.xib */,
+				FA4E57211B2EAABB002A3938 /* 111.png */,
+				FA4E571F1B2EA517002A3938 /* thrMenuBtn.png */,
 				FA3EA2621B2E70F80021CD17 /* Info.plist */,
 				FA3EA2631B2E70F80021CD17 /* main.m */,
 			);
